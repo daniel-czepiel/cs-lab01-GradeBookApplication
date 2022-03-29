@@ -13,6 +13,7 @@ namespace GradeBook.GradeBooks
     public class BaseGradeBook
     {
         public string Name { get; set; }
+        public GradeBookType Type { get; set; } 
         public List<Student> Students { get; set; }
 
         public BaseGradeBook(string name)
@@ -74,10 +75,7 @@ namespace GradeBook.GradeBooks
                 Console.WriteLine("{0} : {1} : {2}", student.Name, student.Type, student.Enrollment);
             }
         }
-        public GradeBookType Type(string name)
-        {
-            return 0;
-        }
+        
 
         public static BaseGradeBook Load(string name)
         {
