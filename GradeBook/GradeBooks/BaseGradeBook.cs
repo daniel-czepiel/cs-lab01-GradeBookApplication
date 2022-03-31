@@ -106,6 +106,7 @@ namespace GradeBook.GradeBooks
                 {
                     var json = JsonConvert.SerializeObject(this);
                     writer.Write(json);
+                   
                 }
             }
         }
@@ -126,6 +127,7 @@ namespace GradeBook.GradeBooks
                     return 0;
             }
             return 0;
+            
         }
 
         public virtual void CalculateStatistics()
