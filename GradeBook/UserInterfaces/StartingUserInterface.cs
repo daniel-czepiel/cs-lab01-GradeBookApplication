@@ -1,13 +1,14 @@
 ﻿using GradeBook.GradeBooks;
 using System;
 
+
 namespace GradeBook.UserInterfaces
 {
     public static class StartingUserInterface
     {
         public static bool Quit = false;
 
-        public static bool IsWeighted { get; private set; }
+        public static bool IsWeight { get; private set; }
 
         public static void CommandLoop()
         {
@@ -39,10 +40,10 @@ namespace GradeBook.UserInterfaces
             var parts = command.Split(' ');
             if(parts.Length != 4)
             {
-                Console.WriteLine("Command not valid, Create requires a name, type of gradebook, if it's weighted (true / false)..");
+                Console.WriteLine("Command not valid, Create requires a name, type of gradebook, if it's weighted (true / false).");
                 return;
             }
-            var name = parts[3];
+            var name = parts[2];
 
             //BaseGradeBook gradeBook = new BaseGradeBook(name);
             //Console.WriteLine("Created gradebook {0}.", name);
@@ -51,19 +52,21 @@ namespace GradeBook.UserInterfaces
             if (name == "standard")
             {
 
-                StandardGradeBook standardGradeBook = new StandardGradeBook(name, IsWeighted);
-                Console.WriteLine("Created standardGradebook {0}.", name + IsWeighted);
+                StandardGradeBook standardGradeBook = new StandardGradeBook(name, IsWeight);
+                Console.WriteLine("Created standardGradebook {0}.", name);
                 GradeBookUserInterface.CommandLoop(standardGradeBook);
             }
             else if (name == "ranked")
             {
-                RankedGradeBook rankedGradeBook = new RankedGradeBook(name, IsWeighted);
-                Console.WriteLine("Created rankedGradebook {0}.", name + IsWeighted);
+                RankedGradeBook rankedGradeBook = new RankedGradeBook(name, IsWeight);
+                Console.WriteLine("Created rankedGradebook {0}.", name);
                 GradeBookUserInterface.CommandLoop(rankedGradeBook);
             }
             else
             {
                 Console.WriteLine(name + " is not a supported type of gradebook, please try again");
+                          
+            return;
             }
         }
 
