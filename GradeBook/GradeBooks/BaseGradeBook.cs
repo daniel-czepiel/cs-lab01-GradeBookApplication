@@ -1,20 +1,19 @@
-﻿using System;
-using System.Linq;
-
-using GradeBook.Enums;
-using System.Collections.Generic;
-using System.IO;
+﻿using GradeBook.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace GradeBook.GradeBooks
 {
-    
+
     public abstract class BaseGradeBook
     {
         public string Name { get; set; }
         public GradeBookType Type { get; set; }
-        public bool IsWeighted { get; set; }    
+        public bool IsWeighted { get; set; }
         public List<Student> Students { get; set; }
 
         public BaseGradeBook(string name, bool IsWeight)
@@ -78,7 +77,7 @@ namespace GradeBook.GradeBooks
                 Console.WriteLine("{0} : {1} : {2}", student.Name, student.Type, student.Enrollment);
             }
         }
-        
+
 
         public static BaseGradeBook Load(string name)
         {
@@ -106,28 +105,52 @@ namespace GradeBook.GradeBooks
                 {
                     var json = JsonConvert.SerializeObject(this);
                     writer.Write(json);
-                   
+
                 }
             }
         }
 
         public virtual double GetGPA(char letterGrade, StudentType studentType)
+
         {
+            double gpa = 0;
+            if (IsWeighted == false)
+            {
+                return gpa;
+            }
             switch (letterGrade)
             {
                 case 'A':
-                    return 4;
+                    gpa = 4;
+                    break;
                 case 'B':
-                    return 3;
+                    gpa = 3;
+                    break;
                 case 'C':
-                    return 2;
+                    gpa = 2;
+                    break;
                 case 'D':
-                    return 1;
+                    gpa = 1;
+                    break;
                 case 'F':
-                    return 0;
+                    gpa = 0;
+                    break;
+
+
             }
-            return 0;
-            
+            if (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled)
+            {
+                gpa++;
+            }
+            return gpa;
+
+
+
+
+
+
+
+
         }
 
         public virtual void CalculateStatistics()
@@ -271,7 +294,7 @@ namespace GradeBook.GradeBooks
                              from type in assembly.GetTypes()
                              where type.FullName == "GradeBook.GradeBooks.StandardGradeBook"
                              select type).FirstOrDefault();
-            
+
             return JsonConvert.DeserializeObject(json, gradebook);
         }
     }
